@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Post content-->
+        <article>
+            <!-- Post header-->
+            <header class="mb-4">
+                <!-- Post title-->
+                <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                <!-- Post meta content-->
+                <div class="text-muted fst-italic mb-2">{{article.created_date}}</div>
+                <!-- Post categories-->
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">by {{article.author.username}}</a>
+                
+            </header>
+            <!-- Preview image figure-->
+            {% if article.article_image %}
+                <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="" />
+            {% endif %}
+            <!-- Post content-->
+            <section class="mb-5">
+                <p class="fs-5 mb-4"> {{article.content}}</p>
+                
+            </section>
+        </article>
+        <!-- Comments section-->
+        <hr>
+        <h4>Yorumlar</h4>
+        <hr>
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="media mb-4">
+            
+            <div class="media-body">
+                <h5 class="mt-0">{{comment.comment_author}}</h5>
+                <small>{{comment.comment_date}}</small>- <br>
+                {{comment.comment_content}}
+            </div>
+        </div>
+                            {% endfor %}
+        {% else %}
+        <div class="alert alert-danger">
+            Bu makaleye henüz yorum yazılmamıştır. İlk yorum yapan siz olun!
+        </div>
+        {% endif %}
+        <section class="mb-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <!-- Comment form-->
+                    <form method="post" class="mb-4" action="{% url "article:comment" article.id %}">
+                        <div class="form-group">
+                            <label >İsim</label>
+                            <input name="comment_author"  class="form-control mb-2" id="exampleInputEmail1" placeholder="İsminizi Giriniz!">
+                            
+                          </div>
+                        {% csrf_token %}
+                        <label for="exampleInputEmail1">Yorum Kısmı</label>
+                        <textarea name="comment_content" class="form-control" rows="3" placeholder="Yorum Ekleyiniz!"></textarea>
+                        
+                    <button type="submit" class="btn btn-primary mt-2">Gönder</button></form>
+                    <!-- Comment with nested comments-->
+                    <div class="d-flex mb-4">
+                        <!-- Parent comment-->
+                        
+                            
+        </section>
+    </div>
+    <!-- Side widgets-->
+    <div class="col-lg-4">
+        <!-- Search widget-->
+        <div class="card mb-4">
+            <div class="card-header">Search</div>
+            <div class="card-body">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                    <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                </div>
+            </div>
+        </div>
+        <!-- Categories widget-->
+        <div class="card mb-4">
+            <div class="card-header">Categories</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="#!">Web Design</a></li>
+                            <li><a href="#!">HTML</a></li>
+                            <li><a href="#!">Freebies</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="#!">JavaScript</a></li>
+                            <li><a href="#!">CSS</a></li>
+                            <li><a href="#!">Tutorials</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Side widget-->
+        <div class="card mb-4">
+            <div class="card-header">Side Widget</div>
+            <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+        </div>
+
+</div>
+
+
+{% endblock body %}
